@@ -2,8 +2,10 @@
 using OK.Messaging.Common.Entities;
 using OK.Messaging.Common.Models;
 using OK.Messaging.Core.Logging;
+using OK.Messaging.Core.Managers;
 using OK.Messaging.Core.Mapping;
 using OK.Messaging.Engine.Logging;
+using OK.Messaging.Engine.Managers;
 using OK.Messaging.Engine.Mapping;
 
 namespace OK.Messaging.Engine
@@ -18,6 +20,10 @@ namespace OK.Messaging.Engine
 
             services.AddTransient((provider) => { return CreateMappingProfile(); });
             services.AddTransient<IMapper, AutoMapperImpl>();
+
+            services.AddTransient<IAuthManager, AuthManager>();
+            services.AddTransient<IUserManager, UserManager>();
+            services.AddTransient<IMessageManager, MessageManager>();
         }
 
         public static AutoMapper.Profile CreateMappingProfile()

@@ -7,6 +7,6 @@ namespace OK.Messaging.Core.Managers
     {
         List<MessageModel> GetMessages(int userId);
 
-        MessageModel CreateMessage(int fromUserId, int toUserId, string content);
+        bool CreateMessage(int fromUserId, string toUsername, string content);
     }
 }
