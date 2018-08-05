@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OK.Messaging.Common\OK.Messaging.Common.csproj" />
+    <ProjectReference Include="..\OK.Messaging.Core\OK.Messaging.Core.csproj" />
+    <ProjectReference Include="..\OK.Messaging.DataAccess\OK.Messaging.DataAccess.csproj" />
+    <ProjectReference Include="..\OK.Messaging.Engine\OK.Messaging.Engine.csproj" />
+  </ItemGroup>
+
+</Project>
