@@ -1,4 +1,6 @@
-﻿namespace OK.Messaging.Common.Models
+﻿using System;
+
+namespace OK.Messaging.Common.Models
 {
     public class MessageModel
     {
@@ -13,5 +15,7 @@
         public UserModel ToUser { get; set; }
 
         public string Content { get; set; }
+
+        public DateTime CreatedDate { get; set; }
     }
 }
