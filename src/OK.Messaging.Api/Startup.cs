@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OK.Messaging.DataAccess;
+using OK.Messaging.Engine;
 
 namespace OK.Messaging.Api
 {
@@ -20,6 +21,8 @@ namespace OK.Messaging.Api
         {
             services.AddDataAccessLayer(_configuration.GetConnectionString("MessagingConnection"));
 
+            services.AddEngineLayer();
+
             services.AddMvc()
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -34,7 +37,7 @@ namespace OK.Messaging.Api
             {
                 app.UseHsts();
             }
-
+            
             app.UseHttpsRedirection();
             app.UseMvc();
         }
