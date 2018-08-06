@@ -52,6 +52,11 @@ namespace OK.Messaging.Engine.Managers
                 return false;
             }
 
+            if (string.IsNullOrEmpty(content))
+            {
+                return false;
+            }
+
             bool isBlocked = _userManager.IsUserBlocked(toUser.Id, fromUser.Id);
 
             if (isBlocked)
