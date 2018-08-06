@@ -65,7 +65,7 @@ namespace OK.Messaging.Engine.Managers
             return _mapper.Map<UserEntity, UserModel>(user);
         }
 
-        public UserModel CreateUser(string username, string password, string fullName)
+        public bool CreateUser(string username, string password, string fullName)
         {
             if (string.IsNullOrEmpty(username))
             {
@@ -82,6 +82,13 @@ namespace OK.Messaging.Engine.Managers
                 throw new ArgumentException(nameof(password));
             }
 
+            UserEntity userByUsername = _userRepository.FindOne(x => x.Username == username);
+
+            if (userByUsername != null)
+            {
+                return false;
+            }
+
             UserEntity user = new UserEntity();
 
             user.Username = username;
@@ -89,8 +96,8 @@ namespace OK.Messaging.Engine.Managers
             user.FullName = fullName;
 
             user = _userRepository.Insert(user);
-            
-            return _mapper.Map<UserEntity, UserModel>(user);
+
+            return user.Id > 0;
         }
 
         public bool IsUserBlocked(int userId, int blockedUserId)
@@ -130,7 +137,14 @@ namespace OK.Messaging.Engine.Managers
 
             userBlock = _userBlockRepository.Insert(userBlock);
 
-            return userBlock.Id > 0;
+            bool isBlocked = userBlock.Id > 0;
+
+            if (isBlocked)
+            {
+                AddActivity(userId, ActivityTypeEnum.BlockUser, $"Blocked {blockedUser.Username}.");
+            }
+
+            return isBlocked;
         }
 
         public bool UnblockUser(int userId, string blockedUsername)
@@ -156,7 +170,14 @@ namespace OK.Messaging.Engine.Managers
                 return true;
             }
 
-            return _userBlockRepository.Remove(userBlock.Id);
+            bool isUnblocked = _userBlockRepository.Remove(userBlock.Id);
+
+            if (isUnblocked)
+            {
+                AddActivity(userId, ActivityTypeEnum.UnblockUser, $"Unblocked {blockedUser.Username}.");
+            }
+
+            return isUnblocked;
         }
 
         public List<ActivityModel> GetActivities(int userId)

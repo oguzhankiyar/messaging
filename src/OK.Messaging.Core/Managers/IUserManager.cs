@@ -12,7 +12,7 @@ namespace OK.Messaging.Core.Managers
 
         UserModel LoginUser(string username, string password);
 
-        UserModel CreateUser(string username, string password, string fullName);
+        bool CreateUser(string username, string password, string fullName);
 
         bool IsUserBlocked(int userId, int blockedUserId);
 
