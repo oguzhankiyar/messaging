@@ -67,6 +67,13 @@ namespace OK.Messaging.Api
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<RequestInformationMiddleware>();
+            
+            app.UseWebSockets();
+
+            app.Map("/api/stream", (_app) =>
+            {
+                _app.UseMiddleware<MessageStreamMiddleware>();
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();
