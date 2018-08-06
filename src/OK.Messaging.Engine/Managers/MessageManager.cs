@@ -1,22 +1,28 @@
-﻿using OK.Messaging.Common.Entities;
+﻿using Newtonsoft.Json;
+using OK.Messaging.Common.Entities;
 using OK.Messaging.Common.Models;
+using OK.Messaging.Core.Handlers;
 using OK.Messaging.Core.Managers;
 using OK.Messaging.Core.Mapping;
 using OK.Messaging.Core.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OK.Messaging.Engine.Managers
 {
     public class MessageManager : IMessageManager
     {
         private readonly IMessageRepository _messageRepository;
+        private readonly IMessageStreamHandler _messageStreamHandler;
         private readonly IUserManager _userManager;
         private readonly IMapper _mapper;
 
-        public MessageManager(IMessageRepository messageRepository, IUserManager userManager, IMapper mapper)
+        public MessageManager(IMessageRepository messageRepository, IMessageStreamHandler messageStreamHandler, IUserManager userManager, IMapper mapper)
         {
             _messageRepository = messageRepository;
+            _messageStreamHandler = messageStreamHandler;
             _userManager = userManager;
             _mapper = mapper;
         }
@@ -30,7 +36,7 @@ namespace OK.Messaging.Engine.Managers
             return _mapper.MapList<MessageEntity, MessageModel>(messages);
         }
 
-        public bool CreateMessage(int fromUserId, string toUsername, string content)
+        public async Task<bool> CreateMessageAsync(int fromUserId, string toUsername, string content)
         {
             UserModel fromUser = _userManager.GetUserById(fromUserId);
 
@@ -61,7 +67,25 @@ namespace OK.Messaging.Engine.Managers
 
             message = _messageRepository.Insert(message);
 
-            return message.Id > 0;
+            bool isSuccess = message.Id > 0;
+
+            if (isSuccess)
+            {
+                object messageObject = new
+                {
+                    Sender = new
+                    {
+                        fromUser.Username,
+                        fromUser.FullName
+                    },
+                    Content = content,
+                    SentAt = DateTime.Now
+                };
+
+                await _messageStreamHandler.SendAsync(toUser.Username, JsonConvert.SerializeObject(messageObject));
+            }
+
+            return isSuccess;
         }
     }
 }

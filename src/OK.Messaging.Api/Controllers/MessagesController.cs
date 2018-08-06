@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OK.Messaging.Api.Requests;
 using OK.Messaging.Core.Managers;
+using System.Threading.Tasks;
 
 namespace OK.Messaging.Api.Controllers
 {
@@ -23,9 +24,9 @@ namespace OK.Messaging.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] SendMessageRequest request)
+        public async Task<IActionResult> PostAsync([FromBody] SendMessageRequest request)
         {
-            bool isSent = _messageManager.CreateMessage(CurrentUserId.Value, request.Username, request.Content);
+            bool isSent = await _messageManager.CreateMessageAsync(CurrentUserId.Value, request.Username, request.Content);
 
             if (!isSent)
             {

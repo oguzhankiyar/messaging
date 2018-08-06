@@ -1,5 +1,6 @@
 ﻿using OK.Messaging.Common.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OK.Messaging.Core.Managers
 {
@@ -7,6 +8,6 @@ namespace OK.Messaging.Core.Managers
     {
         List<MessageModel> GetMessages(int userId);
 
-        bool CreateMessage(int fromUserId, string toUsername, string content);
+        Task<bool> CreateMessageAsync(int fromUserId, string toUsername, string content);
     }
 }
