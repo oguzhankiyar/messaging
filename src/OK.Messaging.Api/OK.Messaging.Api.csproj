@@ -9,10 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\OK.Messaging.Common\OK.Messaging.Common.csproj" />
     <ProjectReference Include="..\OK.Messaging.Core\OK.Messaging.Core.csproj" />
     <ProjectReference Include="..\OK.Messaging.DataAccess\OK.Messaging.DataAccess.csproj" />
