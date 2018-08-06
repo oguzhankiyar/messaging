@@ -79,7 +79,7 @@ namespace OK.Messaging.Engine.Managers
 
             if (string.IsNullOrEmpty(fullName))
             {
-                throw new ArgumentException(nameof(password));
+                throw new ArgumentException(nameof(fullName));
             }
 
             UserEntity userByUsername = _userRepository.FindOne(x => x.Username == username);
