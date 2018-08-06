@@ -11,6 +11,7 @@ using OK.Messaging.Core.Logging;
 using OK.Messaging.DataAccess;
 using OK.Messaging.Engine;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace OK.Messaging.Api
 {
@@ -35,6 +36,21 @@ namespace OK.Messaging.Api
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]))
+                        };
+
+                        options.Events = new JwtBearerEvents
+                        {
+                            OnMessageReceived = context =>
+                            {
+                                var accessToken = context.Request.Query["access_token"];
+
+                                if (!string.IsNullOrEmpty(accessToken))
+                                {
+                                    context.Token = accessToken;
+                                }
+
+                                return Task.CompletedTask;
+                            }
                         };
                     });
 
