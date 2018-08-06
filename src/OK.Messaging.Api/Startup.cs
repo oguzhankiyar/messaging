@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using OK.Messaging.DataAccess;
 using OK.Messaging.Engine;
+using System.Text;
 
 namespace OK.Messaging.Api
 {
@@ -19,6 +22,19 @@ namespace OK.Messaging.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = false,
+                            ValidateAudience = false,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]))
+                        };
+                    });
+
             services.AddDataAccessLayer(_configuration.GetConnectionString("MessagingConnection"));
 
             services.AddEngineLayer();
@@ -37,7 +53,9 @@ namespace OK.Messaging.Api
             {
                 app.UseHsts();
             }
-            
+
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
             app.UseMvc();
         }
