@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using OK.Messaging.Common.Enumerations;
 using OK.Messaging.Common.Models;
 using OK.Messaging.Core.Managers;
 using System;
@@ -16,6 +17,31 @@ namespace OK.Messaging.Engine.Managers
         public AuthManager(IUserManager userManager)
         {
             _userManager = userManager;
+        }
+
+        public bool Login(string username, string password, out int userId)
+        {
+            userId = 0;
+
+            UserModel user = _userManager.LoginUser(username, password);
+
+            if (user == null)
+            {
+                UserModel userByUsername = _userManager.GetUserByUsername(username);
+
+                if (userByUsername != null)
+                {
+                    _userManager.AddActivity(userByUsername.Id, ActivityTypeEnum.InvalidLogin, "Inivalid login.");
+                }
+
+                return false;
+            }
+
+            _userManager.AddActivity(user.Id, ActivityTypeEnum.SuccessLogin, "Success login.");
+
+            userId = user.Id;
+
+            return true;
         }
 
         public string CreateToken(int userId, string key, int expiresInMs)
