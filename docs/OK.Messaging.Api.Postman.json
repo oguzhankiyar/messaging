@@ -1,0 +1,298 @@
+{
+	"info": {
+		"_postman_id": "d680e9ea-c906-45c3-9325-2ec723bb07e0",
+		"name": "OK.Messaging.Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"_postman_id": "10eba806-6a4c-49ee-8bc1-4639fe4f5163",
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"mrkiyar\",\n\t\"password\": \"123456\",\n\t\"fullName\": \"Oğuzhan Kiyar\"\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/users/register",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "6639db59-65a9-468a-a5eb-596015fa6b4f",
+			"name": "Auth User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "616fa5e8-8876-4488-8b8b-0da89ff23380",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setGlobalVariable(\"token\", jsonData.token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"mrkiyar\",\n\t\"password\": \"123456\"\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/auth",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "41e4f3ee-8f97-44f7-8eb7-b4d8c19e5e37",
+			"name": "Get Me",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{endpoint}}/users/me",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "0f56df25-64cc-4505-a1e1-ec0c23027697",
+			"name": "Block User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"okiyar\"\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/users/block",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"users",
+						"block"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "e2f43fd6-4e7e-4c0a-96e9-fcaef26b0775",
+			"name": "Unblock User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"okiyar\"\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/users/unblock",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"users",
+						"unblock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "03c91d14-cf06-4005-8c0f-54fbbe376933",
+			"name": "Get Activities",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{endpoint}}/users/activities",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"users",
+						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "d1ffe265-ccd0-4350-adc9-2d6a2e8de988",
+			"name": "Get Messages",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{endpoint}}/messages",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "6c5eacf2-0691-438e-9607-282d1657e84f",
+			"name": "Send Message",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"okiyar\",\n\t\"content\": \"Selam :)\"\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/messages",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"messages"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4f598873-a390-4ee9-a269-0a896ea981a9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "90c68bd1-5a84-43b9-a185-c4b65a173477",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "5f6aa5de-e74a-43c7-8037-a4b0f6c0f706",
+			"key": "endpoint",
+			"value": "https://localhost:5001/api",
+			"type": "string"
+		}
+	]
+}
