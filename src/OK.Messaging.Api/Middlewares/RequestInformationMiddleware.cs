@@ -13,8 +13,9 @@ namespace OK.Messaging.Api.Middlewares
         private readonly ILogger _logger;
         private readonly RequestDelegate _next;
 
-        public RequestInformationMiddleware(RequestDelegate next)
+        public RequestInformationMiddleware(ILogger logger, RequestDelegate next)
         {
+            _logger = logger;
             _next = next;
         }
 
