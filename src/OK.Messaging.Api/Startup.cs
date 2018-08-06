@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using OK.Messaging.Api.Filters;
+using OK.Messaging.Api.Middlewares;
+using OK.Messaging.Core.Logging;
 using OK.Messaging.DataAccess;
 using OK.Messaging.Engine;
 using System.Text;
@@ -47,7 +49,7 @@ namespace OK.Messaging.Api
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger logger)
         {
             if (env.IsDevelopment())
             {
@@ -58,7 +60,13 @@ namespace OK.Messaging.Api
                 app.UseHsts();
             }
 
+            logger.SetGlobalProperty("ConnectionString", _configuration.GetConnectionString("MessagingConnection"));
+            logger.SetGlobalProperty("Channel", "OK.Messaging.Api");
+
             app.UseAuthentication();
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<RequestInformationMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseMvc();
