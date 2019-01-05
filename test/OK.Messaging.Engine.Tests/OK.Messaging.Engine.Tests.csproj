@@ -13,18 +13,13 @@
     <PackageReference Include="NSubstitute" Version="3.1.0" />
     <PackageReference Include="NUnit" Version="3.10.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\OK.Messaging.Common\OK.Messaging.Common.csproj" />
     <ProjectReference Include="..\..\src\OK.Messaging.Core\OK.Messaging.Core.csproj" />
     <ProjectReference Include="..\..\src\OK.Messaging.Engine\OK.Messaging.Engine.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.IdentityModel.Tokens.Jwt">
-      <HintPath>..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\system.identitymodel.tokens.jwt\5.2.0\lib\netstandard1.4\System.IdentityModel.Tokens.Jwt.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
